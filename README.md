@@ -30,4 +30,7 @@ dwrs https://a.com/a.zip https://b.com/b.zip --output one.zip --output two.zip
 
 # From a list file
 dwrs --file downloads.txt
+
+# continue download
+dwrs --continue https://example.com/file.zip
 ```
