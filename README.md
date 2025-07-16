@@ -18,7 +18,7 @@ dwrs is a lightweight Rust-powered CLI utility for downloading files from the in
     🐧 Easily build .deb and .rpm packages for distribution
 
 🔧 Example usage
-
+```shell
 # Download a single file
 dwrs https://example.com/file.zip
 
@@ -30,3 +30,4 @@ dwrs https://a.com/a.zip https://b.com/b.zip --output one.zip two.zip
 
 # From a list file
 dwrs --file downloads.txt
+```
