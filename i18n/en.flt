@@ -1,7 +1,0 @@
-about: "A utility for parallel downloading of files from the internet with a progress bar"
-wrong-format-string: "Invalid format string: {line}"
-error-in-reading-file: "Error reading file: {error}"
-error-count: "Error: the number of input and output files does not match"
-download: "Downloading {url} → {path}"
-download-finish: "✅ Completed: {file}"
-download-error: "❌ Error downloading {file}: {error}"
