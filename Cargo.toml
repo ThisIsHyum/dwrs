@@ -1,15 +1,27 @@
 [package]
 name = "dwrs"
 version = "0.1.0"
+authors = ["vadim rofeds12345@gmail.com"]
 edition = "2024"
 
 [dependencies]
 clap = { version = "4.5.41", features = ["derive"]}
 colored = "3.0.0"
 env_logger = "0.11.8"
+futures = "0.3.31"
 futures-util = "0.3.31"
 indicatif = "0.18.0"
 log = "0.4.27"
 reqwest = { version = "0.12.22", features = ["blocking","json","stream"]}
 tokio = { version = "1.46.1", features = ["full"]}
 url = "2.5.4"
+
+
+[package.metadata.deb]
+maintainer = "vadim rofeds12345@gmail.com"
+depends = "libc6 (>= 2.28)"
+section = "utils"
+priority = "optional"
+assets = [
+    ["target/release/dwrs", "/usr/bin/","755"]
+]
