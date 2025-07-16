@@ -26,7 +26,7 @@ dwrs https://example.com/file.zip
 dwrs https://a.com/a.zip https://b.com/b.zip
 
 # With custom output filenames
-dwrs https://a.com/a.zip https://b.com/b.zip --output one.zip two.zip
+dwrs https://a.com/a.zip https://b.com/b.zip --output one.zip --output two.zip
 
 # From a list file
 dwrs --file downloads.txt
