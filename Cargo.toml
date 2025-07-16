@@ -3,6 +3,13 @@ name = "dwrs"
 version = "0.1.2"
 authors = ["vadim rofeds12345@gmail.com"]
 edition = "2024"
+description = "CLI tool for parallel file downloads with progress bar and i18n support"
+license = "Apache-2.0"
+repository = "https://github.com/Bircoder432/dwrs"
+readme = "README.md"
+keywords = ["download", "parallel", "cli", "progress", "i18n"]
+categories = ["command-line-utilities", "network-programming"]
+exclude = ["target/", "*.deb", "*.rpm", "*.tar.gz", "tests/", ".github/"]
 
 [dependencies]
 clap = { version = "4.5.41", features = ["derive"]}
@@ -19,6 +26,10 @@ tokio = { version = "1.46.1", features = ["full"]}
 
 url = "2.5.4"
 
+
+[[bin]]
+name = "dwrs"
+path = "src/main.rs"
 
 [package.metadata.deb]
 maintainer = "vadim rofeds12345@gmail.com"
