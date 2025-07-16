@@ -1,36 +1,104 @@
-# 📦 dwrs — Parallel Downloader with Progress Bars
+# dwrs
 
-**dwrs** is a lightweight Rust-powered CLI utility for downloading files from the internet with parallelism and stylish progress bars.
-## 🚀 Features
+**dwrs** is a parallel file downloader with localization support, progress bars, and colorful output — written in Rust.  
+It’s a fast, user-friendly alternative to tools like `wget`, designed for modern terminal workflows.
 
-   - 📥 **Download one or multiple URLs in parallel**
+![GitHub release](https://img.shields.io/github/v/release/bircoder432/dwrs?style=flat-square)
+![crates.io](https://img.shields.io/crates/v/dwrs?style=flat-square)
+![License](https://img.shields.io/crates/l/dwrs?style=flat-square)
 
-   - 📁 **Support for custom output file names via --output**
+---
 
-   - 🧵 **Control the number of simultaneous downloads with --jobs**
+## ✨ Features
 
-   - 🗂 **Batch download from a plain text file (url [output] per line)**
+- 🚀 Parallel downloads (`--jobs`)
+- 📄 Supports download lists from file
+- 🌐 Localized interface (English & Russian)
+- 📦 Colorful terminal output and progress bars
+- 🔄 `--continue` flag for resuming interrupted downloads
+- 🔧 Lightweight and fast, built in pure Rust
 
-   - 📊 **Clean, informative progress bars using indicatif**
+---
 
-   - 🧾 **Logging to console with env_logger**
+## 📦 Installation
 
-   - 🐧 **Easily build .deb and .rpm packages for distribution**
+### Install via Cargo (recommended)
 
-## 🔧 Example usage
-```shell
-# Download a single file
-dwrs https://example.com/file.zip
+```bash
+cargo install dwrs
+````
 
-# Download multiple files
-dwrs https://a.com/a.zip https://b.com/b.zip
+Requires [Rust](https://rustup.rs) and Cargo.
 
-# With custom output filenames
-dwrs https://a.com/a.zip https://b.com/b.zip --output one.zip --output two.zip
+### Build from source
 
-# From a list file
-dwrs --file downloads.txt
-
-# continue download
-dwrs --continue https://example.com/file.zip
+```bash
+git clone https://github.com/your-username/dwrs.git
+cd dwrs
+cargo build --release
 ```
+
+Binary will be in `target/release/dwrs`.
+
+---
+
+## 🧑‍💻 Usage
+
+Download a file:
+
+```bash
+dwrs --url https://example.com/file.iso
+```
+
+Specify custom output name:
+
+```bash
+dwrs --url https://example.com/file.iso --output my_file.iso
+```
+
+Download multiple files in parallel:
+
+```bash
+dwrs --url link1 link2 link3 --output out1 out2 out3 --jobs 3
+```
+
+Batch download from file (`urls.txt`):
+
+```
+https://example.com/image1.jpg img1.jpg
+https://example.com/image2.jpg
+```
+
+```bash
+dwrs --file urls.txt
+```
+
+Resume an interrupted download:
+
+```bash
+dwrs --url https://example.com/large_file.zip --continue
+```
+
+---
+
+## 🌍 Localization
+
+`dwrs` detects your system language and displays messages accordingly.
+
+Supported languages:
+
+* English (`en`)
+* Russian (`ru`)
+
+Localization is powered by [`rust-i18n`](https://github.com/longbridgeapp/rust-i18n).
+
+---
+
+## 🤝 Contributing
+
+Contributions, feedback, and feature suggestions are welcome!
+Feel free to open issues or submit pull requests.
+
+---
+
+
