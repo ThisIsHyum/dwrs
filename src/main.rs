@@ -34,6 +34,9 @@ static INIT_LOCALE: Lazy<()> = Lazy::new(|| {
 #[command(name = "dwrs",author, version, about = format!("{}",t!("about")))]
 #[command(group(clap::ArgGroup::new("input").required(true).args(&["url","file"])))]
 struct Args {
+    /// Continue download
+    #[arg(short, long, default_value_t = false)]
+    continue_: bool,
     /// Direct list of URLs to download
     #[arg(required = false)]
     url: Vec<String>,
@@ -127,7 +130,7 @@ async fn main() {
         let mp = mp.clone();
         let sem = semaphore.clone();
         let url = url.clone();
-
+        let resume = args.continue_;
         tasks.push(task::spawn(async move {
             let _permit = sem.acquire().await.unwrap(); // Wait for slot
             let pb = mp.add(ProgressBar::new_spinner()); // Spinner-based progress bar
@@ -144,7 +147,7 @@ async fn main() {
                 )
             );
 
-            match download_file(&client, &url , &output, &pb).await {
+            match download_file(&client, &url , &output, &pb, resume).await {
                 Ok(_) => pb.finish_with_message(
                     format!("{}: {}", t!("download-finish").green().bold(), outstr.green())
                 ),
@@ -170,12 +173,30 @@ async fn download_file(
     url: &str,
     output: &PathBuf,
     pb: &ProgressBar,
+    resume: bool,
 ) -> Result<(), Box<dyn std::error::Error>> {
-    let response = client.get(url).send().await?;
+    let mut start: u64 = 0;
+    if resume && output.exists() {
+        start = tokio::fs::metadata(&output).await?.len();
+    }
+
+    let mut request = client.get(url);
+    if start > 0 {
+        request = request.header("Range", format!("bytes={}-",start));
+    }
+    let response = request.send().await?;
     let file_size = response.content_length().unwrap_or(0);
 
-    pb.set_length(file_size);
-    let mut file = tokio::fs::File::create(&output).await?;
+    pb.set_length(start + file_size);
+    pb.set_position(start);
+    let mut file = if start > 0 {
+        tokio::fs::OpenOptions::new()
+            .append(true)
+            .open(output)
+            .await?
+    } else {
+        tokio::fs::File::create(output).await?
+    };
     let mut stream = response.bytes_stream();
     while let Some(chunk) = stream.next().await {
         let chunk = chunk?;
