@@ -1,23 +1,23 @@
 # 📦 dwrs — Parallel Downloader with Progress Bars
 
-dwrs is a lightweight Rust-powered CLI utility for downloading files from the internet with parallelism and stylish progress bars.
-🚀 Features
+**dwrs** is a lightweight Rust-powered CLI utility for downloading files from the internet with parallelism and stylish progress bars.
+## 🚀 Features
 
-    📥 Download one or multiple URLs in parallel
+   - 📥 **Download one or multiple URLs in parallel**
 
-    📁 Support for custom output file names via --output
+   - 📁 **Support for custom output file names via --output**
 
-    🧵 Control the number of simultaneous downloads with --jobs
+   - 🧵 **Control the number of simultaneous downloads with --jobs**
 
-    🗂 Batch download from a plain text file (url [output] per line)
+   - 🗂 **Batch download from a plain text file (url [output] per line)**
 
-    📊 Clean, informative progress bars using indicatif
+   - 📊 **Clean, informative progress bars using indicatif**
 
-    🧾 Logging to console with env_logger
+   - 🧾 **Logging to console with env_logger**
 
-    🐧 Easily build .deb and .rpm packages for distribution
+   - 🐧 **Easily build .deb and .rpm packages for distribution**
 
-🔧 Example usage
+## 🔧 Example usage
 ```shell
 # Download a single file
 dwrs https://example.com/file.zip
