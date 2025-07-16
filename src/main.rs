@@ -45,17 +45,6 @@ struct Args {
     file: Option<PathBuf>,
 }
 
-// fn get_filename_from_url(url_str: &str) -> Option<String> {
-//     let url = Url::parse(url_str).ok()?;
-//     let path_segments = url.path_segments()?;
-//     let filename = path_segments.last()?;
-//     if filename.is_empty() {
-//         None
-//     } else {
-//         Some(filename.to_string())
-//     }
-// }
-
 
 
 async fn parse_file(path: &PathBuf) -> Result<Vec<(String, String)>, Box<dyn std::error::Error>> {
@@ -73,7 +62,7 @@ async fn parse_file(path: &PathBuf) -> Result<Vec<(String, String)>, Box<dyn std
             let filename = parts[0].split('/').last().unwrap_or("file.bin").to_string();
             pairs.push((parts[0].to_string(), filename));
         } else {
-            eprintln!("{}: {}", t!("wrong-format-string"), line)
+            eprintln!("{}: {}", t!("wrong-format-string").red().bold(), line);
         }
     }
     Ok(pairs)
@@ -93,7 +82,7 @@ async fn main() {
 
     if let Some(file_path) = args.file {
         url_output_pairs = parse_file(&file_path).await.unwrap_or_else(|e| {
-            eprintln!("{}: {}", t!("error-in-reading-file"), e);
+            eprintln!("{}: {}", t!("error-in-reading-file").red().bold(), e);
             panic!();
         });
     } else {
@@ -110,7 +99,7 @@ async fn main() {
         if !args.output.is_empty() && args.output.len() != args.url.len() {
             println!("{}",args.output.len());
             error!("Error count of output files dont equal of urls");
-            eprintln!("{}",t!("error-count"));
+            eprintln!("{}", t!("error-count").red().bold());
             panic!()
         }
 
@@ -142,11 +131,27 @@ async fn main() {
                 ProgressStyle::with_template("{spinner:.green} [{elapsed_precise}] [{bar:40.cyan/blue}] {pos:>7}/{len:7} ({percent}%) {msg}").unwrap()
             );
 
-            pb.set_message(format!("{} {} → {}", t!("download"), &url, outstr));
+            pb.set_message(
+                format!(
+                    "{} {} → {}",
+                    t!("download").blue(),
+                        url.yellow().bold(),
+                        outstr.green().bold()
+                )
+            );
 
             match download_file(&client, &url , &output, &pb).await {
-                Ok(_) => pb.finish_with_message(format!("{}: {}", t!("download-finish"), &outstr)),
-                Err(e) => pb.finish_with_message(format!("{}: {}: {}", t!("download-error"), &outstr, e)),
+                Ok(_) => pb.finish_with_message(
+                    format!("{}: {}", t!("download-finish").green().bold(), outstr.green())
+                ),
+                Err(e) => pb.finish_with_message(
+                    format!(
+                        "{}: {}: {}",
+                        t!("download-error").red().bold(),
+                            outstr,
+                            e
+                    )
+                ),
             }
         }));
     }
