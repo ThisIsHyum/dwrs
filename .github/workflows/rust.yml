@@ -11,7 +11,7 @@ env:
 
 jobs:
   release:
-    name: Release - ${{ matrix.platform.release_for }}
+    name: Release - ${{ matrix.platform.os }}
     strategy:
       matrix:
         platform:
@@ -36,7 +36,5 @@ jobs:
           args: "--locked --release"
           strip: true
       - name: Publish artifacts and release
-        uses: houseabsolute/actions-rust-release@v0
-        with:
-          executable-name: dwrs
-          target: ${{ matrix.platform.target }}
+        run:
+          gh release upload v0.1.0 build/release 
