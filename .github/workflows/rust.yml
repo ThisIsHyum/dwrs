@@ -39,4 +39,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run:
-          gh release upload v0.1.0 build/release 
+          gh release upload v0.1.0 target/release/dwrs
